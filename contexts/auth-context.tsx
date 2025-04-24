@@ -7,8 +7,10 @@ import { supabase } from "@/lib/supabase"
 import { useRouter } from "next/navigation"
 import type { Session, User } from "@supabase/supabase-js"
 
+type UserRole = "student" | "faculty" | "admin"
+
 type UserWithRole = User & {
-    role?: "student" | "faculty" | "admin"
+    role?: UserRole
     name?: string
 }
 
@@ -63,11 +65,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 if (data) {
                     setUser({
                         ...session.user,
-                        role: data.role,
+                        role: data.role as UserRole,
                         name: data.name,
                     })
                 } else {
-                    setUser(session.user)
+                    setUser(session.user as UserWithRole)
                 }
             }
 
@@ -84,11 +86,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 if (data) {
                     setUser({
                         ...session.user,
-                        role: data.role,
+                        role: data.role as UserRole,
                         name: data.name,
                     })
                 } else {
-                    setUser(session.user)
+                    setUser(session.user as UserWithRole)
                 }
             } else {
                 setUser(null)
